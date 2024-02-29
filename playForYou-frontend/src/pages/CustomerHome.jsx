@@ -8,13 +8,15 @@ import UpdatePasswordForm from '../pages/UpdatePasswordForm'
 import axios from 'axios';
 import { IoPersonOutline } from "react-icons/io5";
 import Footer from '../Components/Footer'
+import Home from '../Components/Home'
 
 function CustomerHome() {
 
     const [showSongs, setShowSongs] = useState(false);
     const [showPay, setShowPay] = useState(false);
-    const [premium, setPremium] = useState(false);
     const [showUpdatePass, setShowUpdatePass] = useState(false);
+    const [showHome, setShowHome] = useState(true);
+    const [premium, setPremium] = useState(false);
     const navigate = useNavigate();
     const userEmail = localStorage.getItem("userEmail")
     const [username, setUsername] = useState('')
@@ -59,7 +61,12 @@ function CustomerHome() {
     return (
         <div>
             <Navbar expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand as={Link} to='/customer' className='mx-3'>Playforyou</Navbar.Brand>
+                <Navbar.Brand as={Link} to='' onClick={() => {
+                    setShowSongs(false);
+                    setShowUpdatePass(false);
+                    setShowPay(false);
+                    setShowHome(true);
+                }} className='mx-3'>Playforyou</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarSupportedContent" aria-label="Toggle navigation" />
                 <Navbar.Collapse id="navbarSupportedContent">
                     <Row className="w-100">
@@ -71,6 +78,7 @@ function CustomerHome() {
                                         setShowSongs(true);
                                         setShowUpdatePass(false);
                                         setShowPay(false);
+                                        setShowHome(false);
                                     }}>Songs</Nav.Link>
                                 {premium ? (
                                     <Nav.Link disabled>Subscribed</Nav.Link>
@@ -80,6 +88,7 @@ function CustomerHome() {
                                             setShowPay(true);
                                             setShowSongs(false);
                                             setShowUpdatePass(false);
+                                            setShowHome(false);
                                         }}>SubscribePremium</Nav.Link>
                                 )}
                             </Nav>
@@ -96,6 +105,7 @@ function CustomerHome() {
                                         setShowUpdatePass(true);
                                         setShowSongs(false);
                                         setShowPay(false);
+                                        setShowHome(false);
                                     }} >ChangePassword</Nav.Link>
                                 <Button variant="secondary" className="p rounded-sm text-white"
                                     onClick={handleLogout}>Logout</Button>
@@ -104,6 +114,7 @@ function CustomerHome() {
                     </Row>
                 </Navbar.Collapse>
             </Navbar>
+            {showHome && <Home />}
             {showPay && <RazorpayPayment />}
             {showSongs && <Songs />}
             {showUpdatePass && <UpdatePasswordForm />}
